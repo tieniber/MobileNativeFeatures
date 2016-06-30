@@ -50,7 +50,17 @@ define([
 			navigator.notification.confirm(args.content, function(buttonNum) {
 				if(buttonNum === 1) {
 					args.handler();
-				}
+				//Extra argument so other widgets can get a callback on the cancel button too
+				} else if (buttonNum === 2 && args.handlerCancel) {
+					if (window.plugins && window.plugins.nativepagetransitions) {
+						window.plugins.nativepagetransitions.cancelPendingTransition(
+							function (msg) {
+								//console.log("success: " + msg)
+							} // called when the screenshot was hidden (almost instantly)
+						);
+					}
+					args.handlerCancel();
+			   }
 			}, 'Confirm', [args.proceed, args.cancel]); 
 		},
 		
