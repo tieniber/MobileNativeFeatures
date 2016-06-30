@@ -37,7 +37,7 @@ define([
             logger.debug(this.id + ".postCreate");
             
 			//if the dialog plugin exists, override the mx.ui.confirmation, info, warning, and error, but only if another copy of this widget hasn't already done so.
-			if (navigator && navigator.notification && (mx.ui.mobileDialogLoaded === null || mx.ui.mobileDialogLoaded === false)) {
+			if (navigator && navigator.notification && (typeof mx.ui.mobileDialogLoaded === "undefined" || mx.ui.mobileDialogLoaded === null || mx.ui.mobileDialogLoaded === false)) {
 				mx.ui.mobileDialogLoaded = true;
 				mx.ui.confirmation = this._confirmationReplacement;
 				
