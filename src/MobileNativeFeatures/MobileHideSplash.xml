@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="MobileNativeFeatures.widget.MobileHideSplash" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>MobileHideSplash</name>
+    <description>A widget that hides the PhoneGap/Cordova native splash screen. Requires the cordova-plugin-splashscreen plugin to be included in your hybrid mobile app. As of 6.5.1, this was in the default hybrid config file.
+	Place this widget on your master layout, and use this in conjunction with this line in your config.xml file:
+		preference name="AutoHideSplashScreen" value="false"
+	</description>
+
+    <icon />
+
+    <properties>
+        <property key="unusedParam" type="string" required="false">
+            <caption>Unused Parameter</caption>
+            <category>Appearance</category>
+            <description>An unused parameter, which does nothing</description>
+        </property>
+    </properties>
+</widget>
+

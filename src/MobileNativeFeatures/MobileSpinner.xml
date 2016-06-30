@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="MobileNativeFeatures.widget.MobileSpinner" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>MobileSpinner</name>
+    <description>A widget that overrides the default Mendix loading windows with mobile native ones, when available. Requires the cordova-plugin-spinner to be included in your hybrid mobile app.</description>
+
+    <icon />
+
+    <properties>
+        <property key="delay" type="integer" defaultValue="500" required="true">
+            <caption>Delay</caption>
+            <category>Appearance</category>
+            <description>The amount of time to wait before showing a loading screen, in milliseconds. Mendix default is 500ms.</description>
+        </property>
+    </properties>
+</widget>
+

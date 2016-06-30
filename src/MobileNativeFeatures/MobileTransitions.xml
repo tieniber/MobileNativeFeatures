@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="MobileNativeFeatures.widget.MobileTransitions" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>Mobile Transitions</name>
+    <description>Create page transitions for your Hybrid Mobile Apps</description>
+
+    <icon>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAd0lEQVR42q1TQQ7AIAjjEfz/Oe4Ah/mizSWYEFM3cDbpsRVKJZqDG9XIlMQjqI2X8cyaqBN3SsagmMCLCy2gG4R2VvAKMjhsIkaBScBAxmBRYFHKFgO2caIrKOoGT06FDMoY4pYzfhVJs0WSv1X2wS59Jh/sa2A3/2BcyNllo4UAAAAASUVORK5CYII=</icon>
+
+    <properties>
+        <property key="direction" type="enumeration" required="true" defaultValue="up">
+            <caption>Direction</caption>
+            <category>Settings</category>
+            <description>The direction to transition the next page</description>
+            <enumerationValues>
+                <enumerationValue key="up">Slide Up</enumerationValue>
+                <enumerationValue key="down">Slide Down</enumerationValue>
+                <enumerationValue key="left">Slide Left</enumerationValue>
+                <enumerationValue key="right">Slide Right</enumerationValue>
+				<enumerationValue key="fade">Fade</enumerationValue>
+            </enumerationValues>
+        </property>
+        <property key="clsName" type="string" required="true">
+            <caption>Class Name</caption>
+            <category>Settings</category>
+            <description>Name of the class to apply page transition to when clicked/tapped</description>
+        </property>
+        <property key="duration" type="integer" required="true" defaultValue="400">
+            <caption>Duration</caption>
+            <category>Settings</category>
+            <description>How long the transition should take palce (in milliseconds)</description>
+        </property>
+        <property key="fixedPixelsTop" type="integer" required="true" defaultValue="0">
+            <caption>Fixed Pixels Top</caption>
+            <category>Settings</category>
+            <description>Any header pixels that you don't want to slide.</description>
+        </property>
+        <property key="fixedPixelsBottom" type="integer" required="true" defaultValue="0">
+            <caption>Fixed Pixels Bottom</caption>
+            <category>Settings</category>
+            <description>Any footer pixels that you don't want to slide.</description>
+        </property>        
+    </properties>
+</widget>

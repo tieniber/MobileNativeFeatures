@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="MobileNativeFeatures.widget.MobileStatusBar" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>MobileStatusBar</name>
+    <description>Lets you control the style and presence of the status bar in a mobile app.</description>
+
+    <icon />
+
+    <properties>
+        <property key="backgroundColor" type="string" defaultValue="#000000" required="true">
+            <caption>Background Color</caption>
+            <category>Appearance</category>
+            <description>The hex code background color for the .</description>
+        </property>
+		<property key="textColor" type="enumeration" defaultValue="white">
+			<caption>Text Color</caption>
+			<category>Appearance</category>
+			<description>Color of the text/icons in the status bar.</description>
+			<enumerationValues>
+				<enumerationValue key="white">White</enumerationValue>
+				<enumerationValue key="black">Black</enumerationValue>
+			</enumerationValues>
+		</property>
+		<property key="showStatusBar" type="boolean" required="true" defaultValue="true">
+			<caption>Show Status Bar?</caption>
+			<category>Appearance</category>
+			<description>Show or hide the status bar.</description>
+		</property>
+		<property key="overlayWebView" type="boolean" required="true" defaultValue="false">
+			<caption>Overlay Status Bar?</caption>
+			<category>Appearance</category>
+			<description>iOS only, if true, the status bar overlays the top part of the page content. Otherwise, it is seperate from the page content.</description>
+		</property>
+    </properties>
+</widget>
+

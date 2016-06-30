@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="MobileNativeFeatures.widget.MobileDialog" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>MobileDialog</name>
+    <description>A widget that overrides the default Mendix alerts and confirmation windows with mobile native ones, when available. Requires the cordova-plugin-dialogs plugin to be included in your hybrid mobile app. As of 6.5.1, this was in the default hybrid config file.</description>
+
+    <icon />
+
+    <properties>
+        <property key="unusedParam" type="string" required="false">
+            <caption>Unused Parameter</caption>
+            <category>Appearance</category>
+            <description>An unused parameter, which does nothing</description>
+        </property>
+    </properties>
+</widget>
+
