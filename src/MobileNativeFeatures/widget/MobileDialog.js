@@ -1,4 +1,6 @@
-/*global logger*/
+/*global logger, define, require, dojo, mx*/
+/*jslint nomen: true*/
+
 /*
     MobileDialog
     ========================
@@ -35,7 +37,7 @@ define([
             logger.debug(this.id + ".postCreate");
             
 			//if the dialog plugin exists, override the mx.ui.confirmation, info, warning, and error, but only if another copy of this widget hasn't already done so.
-			if (navigator && navigator.notification && (mx.ui.mobileDialogLoaded == null || mx.ui.mobileDialogLoaded === false)) {
+			if (navigator && navigator.notification && (mx.ui.mobileDialogLoaded === null || mx.ui.mobileDialogLoaded === false)) {
 				mx.ui.mobileDialogLoaded = true;
 				mx.ui.confirmation = this._confirmationReplacement;
 				
@@ -47,11 +49,11 @@ define([
 		
 		_confirmationReplacement: function (args) {
 			//navigator.notification.confirm(message, confirmCallback, [title], [buttonLabels])
-			navigator.notification.confirm(args.content, function(buttonNum) {
-				if(buttonNum === 1) {
+			navigator.notification.confirm(args.content, function (buttonNum) {
+				if (buttonNum === 1) {
 					args.handler();
 				//Extra argument so other widgets can get a callback on the cancel button too
-				} else if (buttonNum === 2 && args.handlerCancel) {
+				} else if (buttonNum === 2) {
 					if (window.plugins && window.plugins.nativepagetransitions) {
 						window.plugins.nativepagetransitions.cancelPendingTransition(
 							function (msg) {
@@ -59,22 +61,22 @@ define([
 							} // called when the screenshot was hidden (almost instantly)
 						);
 					}
-					args.handlerCancel();
-			   }
-			}, 'Confirm', [args.proceed, args.cancel]); 
+					if (args.handlerCancel) {args.handlerCancel(); }
+				}
+			}, "Confirm", [args.proceed, args.cancel]);
 		},
 		
 		_infoReplacement: function (msg, modal) {
 			//navigator.notification.alert(message, alertCallback, [title], [buttonName])
-			navigator.notification.alert(msg, null, 'Info'); 
+			navigator.notification.alert(msg, null, "Info");
 		},
 		_warningReplacement: function (msg, modal) {
 			//navigator.notification.alert(message, alertCallback, [title], [buttonName])
-			navigator.notification.alert(msg, null, 'Warning'); 
+			navigator.notification.alert(msg, null, "Warning");
 		},
 		_errorReplacement: function (msg, modal) {
 			//navigator.notification.alert(message, alertCallback, [title], [buttonName])
-			navigator.notification.alert(msg, null, 'Error'); 
+			navigator.notification.alert(msg, null, "Error");
 		}
     });
 });
