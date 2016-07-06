@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="MobileNativeFeatures.widget.MobileActionMenu" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>MobileActionMenu</name>
+    <description>A widget provides a button that triggers a native action menu, tied to a list of microflows.</description>
+    <icon />
+
+    <properties>       	
+		<property key="buttonText" type="string" required="false" defaultValue="">
+            <caption>Button Text</caption>
+            <category>Appearance</category>
+            <description>The text of the button.</description>
+        </property>		
+		<property key="buttonClass" type="string" required="false" defaultValue="">
+            <caption>Button CSS Class</caption>
+            <category>Appearance</category>
+            <description>The CSS class(es) to be added to the button. Seperate multiple classes with spaces.</description>
+        </property>			
+		<property key="title" type="string" required="true" defaultValue="Select an option">
+            <caption>Prompt Text</caption>
+            <category>Appearance</category>
+            <description>The text at the top of the action menu</description>
+        </property>
+		
+		<property key="cancelButton" type="boolean" required="true" defaultValue="false">
+            <caption>Show Cancel Button</caption>
+            <category>Cancel Button</category>
+            <description>Optionally show a cancel button</description>
+        </property>
+		<property key="cancelButtonText" type="string" required="true" defaultValue="Cancel">
+            <caption>Cancel Button Text</caption>
+            <category>Cancel Button</category>
+            <description>The label of the Cancel button</description>
+        </property>
+		
+		<property key="deleteButton" type="boolean" required="true" defaultValue="false">
+            <caption>Show Delete Button</caption>
+            <category>Delete Button</category>
+            <description>Optionally show a delete button. This is different formatting than a regular button. On iOS it has red text</description>
+        </property>
+		<property key="deleteButtonText" type="string" required="false" defaultValue="Delete">
+            <caption>Delete Button Text</caption>
+            <category>Delete Button</category>
+            <description>The label of the Delete button</description>
+        </property>		
+		<property key="deleteButtonMF" type="microflow" required="false">
+			<caption>Delete Button Microflow</caption>
+			<category>Delete Button</category>
+			<description>The microflow to run if the user clicks the delete button</description>
+			<returnType type="Void" />
+		</property>
+		<property key="deleteButtonProgress" type="boolean" defaultValue="false">
+			<caption>Progress Indicator</caption>
+			<category>Delete Button</category>
+			<description>Whether the progress message/indicator is shown</description>
+		</property>
+		<property key="deleteButtonModal" type="boolean" defaultValue="false">
+			<caption>Modal</caption>
+			<category>Delete Button</category>
+			<description>Whether the progress message is modal</description>
+		</property>
+		<property key="deleteButtonMessage" type="string" required="false" defaultValue="">
+			<caption>Message</caption>
+			<category>Delete Button</category>
+			<description>The progress message</description>
+		</property>			
+		
+		<!-- This is the list -->
+        <property key="buttons" type="object" isList="true" required="false">
+            <caption>Buttons</caption>
+            <category>Buttons</category>
+            <description></description>
+            <properties>
+				<property key="text" type="string">
+				  <caption>Text</caption>
+				  <category>Appearance</category>
+				  <description>Text for the button.</description>
+				</property>
+				<property key="microflow" type="microflow" required="true">
+					<caption>Microflow</caption>
+					<category>Behavior</category>
+					<description>The microflow to run if the user clicks the button</description>
+					<returnType type="Void" />
+				</property>
+				<property key="progress" type="boolean" defaultValue="false">
+					<caption>Progress Indicator</caption>
+					<category>Behavior</category>
+					<description>Whether the progress message/indicator is shown</description>
+				</property>
+				<property key="modal" type="boolean" defaultValue="false">
+					<caption>Modal</caption>
+					<category>Behavior</category>
+					<description>Whether the progress message is modal</description>
+				</property>
+				<property key="message" type="string" required="false" defaultValue="">
+					<caption>Message</caption>
+					<category>Behavior</category>
+					<description>The progress message</description>
+				</property>			
+            </properties>
+        </property>				
+    </properties>
+</widget>
+

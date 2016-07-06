@@ -7,6 +7,7 @@
 			<widgetFile path="MobileNativeFeatures/MobileTransitions.xml" />
 			<widgetFile path="MobileNativeFeatures/MobileHideSplash.xml" />
 			<widgetFile path="MobileNativeFeatures/MobileStatusBar.xml" />
+			<widgetFile path="MobileNativeFeatures/MobileActionMenu.xml" />
         </widgetFiles>
         <files>
             <file path="MobileNativeFeatures/widget/" />

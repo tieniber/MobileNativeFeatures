@@ -87,76 +87,76 @@ define([
 			
             if (typeof window.plugins !== "undefined") {
 
-                if (typeof window.plugins.nativepagetransitions !== "undefined") {
-                	if (this.direction === "fade") {
+                if (typeof window.plugins.nativepagetransitions !== "undefined") {					
+					if (this.direction === "fade") {
 						this._listenerHandle = dojo.query("."+this.clsName).on('click', lang.hitch(this, function () {
-
-							var options = {
-								"duration"       :  this.duration, // in milliseconds (ms), default 400
-								"iosdelay"       :   -1, // ms to wait for the iOS webview to update before animation kicks in, default 60
-								"androiddelay"   :   -1
+							window.plugins.nativepagetransitions.nextTransition = this.direction;
+							window.plugins.nativepagetransitions.nextOptions = {
+								"duration"       :  this.duraction, // in milliseconds (ms), default 400
+								"iosdelay"       :   0, // ms to wait for the iOS webview to update before animation kicks in, default 60
+								"androiddelay"   :   0
 							};
-
-							window.plugins.nativepagetransitions.cancelPendingTransition(
-						  		function (msg) {
-									//console.log("success: " + msg)
-								} // called when the screenshot was hidden (almost instantly)
-							);							
-							window.plugins.nativepagetransitions.fade(
-								options,
-								function (msg) {
-									//console.log("success: " + msg);
-								}, // called when the animation has finished
-								function (msg) {
-									alert("error: " + msg);
-								} // called in case you pass in weird values
-							);
 						}));						
 					} else {
 				
 						this._listenerHandle = dojo.query("."+this.clsName).on('click', lang.hitch(this, function () {
-
-							var options = {
+							window.plugins.nativepagetransitions.nextTransition = this.direction;
+							window.plugins.nativepagetransitions.nextOptions = {
 								"direction": this.direction, // 'left|right|up|down', default 'left' (which is like 'next')
 								"duration": this.duration, // in milliseconds (ms), default 400
 								"slowdownfactor": 2, // overlap views (higher number is more) or no overlap (1), default 4
-								"iosdelay": -1, //defer transitions until they're called later ////60, // ms to wait for the iOS webview to update before animation kicks in, default 60
-								"androiddelay": -1, //defer transitions until they're called later ////70 // same as above but for Android, default 70
+								"iosdelay": 0, //defer transitions until they're called later ////60, // ms to wait for the iOS webview to update before animation kicks in, default 60
+								"androiddelay": 0, //defer transitions until they're called later ////70 // same as above but for Android, default 70
 								"winphonedelay": 200, // same as above but for Windows Phone, default 200,
 								"fixedPixelsTop": this.fixedPixelsTop, // the number of pixels of your fixed header, default 0 (iOS and Android)
 								"fixedPixelsBottom": this.fixedPixelsBottom // the number of pixels of your fixed footer (f.i. a tab bar), default 0 (iOS and Android)
 							};
-							
-							window.plugins.nativepagetransitions.cancelPendingTransition(
-						  		function (msg) {
-									//console.log("success: " + msg)
-								} // called when the screenshot was hidden (almost instantly)
-							);
-							window.plugins.nativepagetransitions.slide(
-								options,
-								function (msg) {
-									//console.log("success: " + msg);
-								}, // called when the animation has finished
-								function (msg) {
-									alert("error: " + msg);
-								} // called in case you pass in weird values
-							);
 						}));
 					}
                 }
             } else {
-                logger.debug('page transition plugin not found');
+                console.log('page transition plugin not found');
             }
         },
 		
 		_fireTransition: function(deferred) {
-			//Run any pending transitions, because this function only gets called when the dojo Ready function fires			
-			if (window.plugins && typeof window.plugins.nativepagetransitions !== "undefined") {
-				window.plugins.nativepagetransitions.executePendingTransition(
-				  function (msg) {}, // called when the animation has finished
-				  function (msg) {} // called in case you pass in weird values
-				);
+			//instead of setting up a pending transition, we're just going to leave options on the plugin to run it directly here
+			//This should solve a bunch of problems with errors and things that pop up
+			
+			if (window.plugins && typeof window.plugins.nativepagetransitions !== "undefined" && window.plugins.nativepagetransitions.nextTransition) {
+				if (window.plugins.nativepagetransitions.nextTransition === "fade") {	
+					window.plugins.nativepagetransitions.fade(
+						window.plugins.nativepagetransitions.nextOptions,
+						function (msg) {
+							//console.log("success: " + msg);
+						}, // called when the animation has finished
+						function (msg) {
+							alert("error: " + msg);
+						} // called in case you pass in weird values
+					);
+				} else {
+					window.plugins.nativepagetransitions.slide(
+						window.plugins.nativepagetransitions.nextOptions,
+						function (msg) {
+							//console.log("success: " + msg);
+						}, // called when the animation has finished
+						function (msg) {
+							alert("error: " + msg);
+						} // called in case you pass in weird values
+					);					
+				}
 			}
+			
+			window.plugins.nativepagetransitions.nextTransition = null;
+			window.plugins.nativepagetransitions.nextOptions = null;	
+			
+			//Run whatever pending transition is waiting			
+			/*if (window.plugins && typeof window.plugins.nativepagetransitions !== "undefined") {
+				window.plugins.nativepagetransitions.executePendingTransition(
+				  function (msg) {console.log("success: " + msg);}, // called when the animation has finished
+				  function (msg) {alert("error: " + msg);} // called in case you pass in weird values
+				);
+			}*/
 			
 			return deferred;
 		}
