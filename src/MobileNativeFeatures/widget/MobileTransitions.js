@@ -1,5 +1,5 @@
 /*jslint white:true, nomen: true, plusplus: true */
-/*global mx, define, require, browser, devel, console, document, jQuery */
+/*global mx, define, require, browser, devel, console, document, logger, alert */
 /*mendix */
 /*
     PageTransitionsNoContext
@@ -19,13 +19,13 @@
 
 // Required module list. Remove unnecessary modules, you can always get them back from the boilerplate.
 define([
-    'dojo/_base/declare', 'mxui/widget/_WidgetBase',
-    'dojo/_base/lang', 'dojo/on', 'dojo/ready', 'dojo/aspect'
-], function (declare, _WidgetBase, lang, on, ready, aspect) {
-    'use strict';
+    "dojo/_base/declare", "mxui/widget/_WidgetBase",
+    "dojo/_base/lang", "dojo/on", "dojo/ready", "dojo/aspect", "dojo/query"
+], function (declare, _WidgetBase, lang, on, ready, aspect, query) {
+    "use strict";
 
     // Declare widget's prototype.
-    return declare('MobileNativeFeatures.widget.MobileTransitions', [_WidgetBase], {
+    return declare("MobileNativeFeatures.widget.MobileTransitions", [_WidgetBase], {
         // _TemplatedMixin will create our dom node using this HTML template
         // Parameters configured in the Modeler.
         clsName: null,
@@ -39,9 +39,10 @@ define([
 
         // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
         postCreate: function () {
-            logger.debug(this.id + '.postCreate');
+            logger.debug(this.id + ".postCreate");
 
             ready(lang.hitch(this, this._setupMutationObserver));
+			aspect.after(this.mxform, "onLoading", lang.hitch(this, this._prepTransition));
 			aspect.after(this.mxform, "onNavigation", lang.hitch(this, this._fireTransition));
         },
 
@@ -61,7 +62,7 @@ define([
 		
 		_setupMutationObserver: function () {
 		
-			MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+			var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
 			this._observer = new MutationObserver(lang.hitch(this, this._setupListeners));
 
@@ -89,24 +90,24 @@ define([
 
                 if (typeof window.plugins.nativepagetransitions !== "undefined") {					
 					if (this.direction === "fade") {
-						this._listenerHandle = dojo.query("."+this.clsName).on('click', lang.hitch(this, function () {
+						this._listenerHandle = query("."+this.clsName).on("click", lang.hitch(this, function () {
 							window.plugins.nativepagetransitions.nextTransition = this.direction;
 							window.plugins.nativepagetransitions.nextOptions = {
 								"duration"       :  this.duraction, // in milliseconds (ms), default 400
-								"iosdelay"       :   0, // ms to wait for the iOS webview to update before animation kicks in, default 60
-								"androiddelay"   :   0
+								"iosdelay"       :   -1, // ms to wait for the iOS webview to update before animation kicks in, default 60
+								"androiddelay"   :   -1
 							};
 						}));						
 					} else {
 				
-						this._listenerHandle = dojo.query("."+this.clsName).on('click', lang.hitch(this, function () {
+						this._listenerHandle = query("."+this.clsName).on("click", lang.hitch(this, function () {
 							window.plugins.nativepagetransitions.nextTransition = this.direction;
 							window.plugins.nativepagetransitions.nextOptions = {
-								"direction": this.direction, // 'left|right|up|down', default 'left' (which is like 'next')
+								"direction": this.direction, // "left|right|up|down", default "left" (which is like "next")
 								"duration": this.duration, // in milliseconds (ms), default 400
 								"slowdownfactor": 2, // overlap views (higher number is more) or no overlap (1), default 4
-								"iosdelay": 0, //defer transitions until they're called later ////60, // ms to wait for the iOS webview to update before animation kicks in, default 60
-								"androiddelay": 0, //defer transitions until they're called later ////70 // same as above but for Android, default 70
+								"iosdelay": -1, //defer transitions until they"re called later ////60, // ms to wait for the iOS webview to update before animation kicks in, default 60
+								"androiddelay": -1, //defer transitions until they"re called later ////70 // same as above but for Android, default 70
 								"winphonedelay": 200, // same as above but for Windows Phone, default 200,
 								"fixedPixelsTop": this.fixedPixelsTop, // the number of pixels of your fixed header, default 0 (iOS and Android)
 								"fixedPixelsBottom": this.fixedPixelsBottom // the number of pixels of your fixed footer (f.i. a tab bar), default 0 (iOS and Android)
@@ -115,13 +116,14 @@ define([
 					}
                 }
             } else {
-                console.log('page transition plugin not found');
+                console.log("page transition plugin not found");
             }
         },
 		
-		_fireTransition: function(deferred) {
-			//instead of setting up a pending transition, we're just going to leave options on the plugin to run it directly here
-			//This should solve a bunch of problems with errors and things that pop up
+		_prepTransition: function(deferred) {
+			//instead of setting up a pending when a button is clicked, we're just going to leave options on the plugin object, then prep it before onNavigation.
+			//Then we'll call the actual animation after onNavigation
+			//This should solve a bunch of problems with taking a screenshot too early, and covering up things like errors
 			
 			if (window.plugins && typeof window.plugins.nativepagetransitions !== "undefined" && window.plugins.nativepagetransitions.nextTransition) {
 				if (window.plugins.nativepagetransitions.nextTransition === "fade") {	
@@ -144,19 +146,21 @@ define([
 							alert("error: " + msg);
 						} // called in case you pass in weird values
 					);					
-				}
-			}
-			
-			window.plugins.nativepagetransitions.nextTransition = null;
-			window.plugins.nativepagetransitions.nextOptions = null;	
-			
+				}				
+				window.plugins.nativepagetransitions.nextTransition = null;
+				window.plugins.nativepagetransitions.nextOptions = null;
+			}			
+			return deferred;
+		},
+		
+		_fireTransition: function(deferred) {			
 			//Run whatever pending transition is waiting			
-			/*if (window.plugins && typeof window.plugins.nativepagetransitions !== "undefined") {
+			if (window.plugins && typeof window.plugins.nativepagetransitions !== "undefined") {
 				window.plugins.nativepagetransitions.executePendingTransition(
 				  function (msg) {console.log("success: " + msg);}, // called when the animation has finished
 				  function (msg) {alert("error: " + msg);} // called in case you pass in weird values
 				);
-			}*/
+			}
 			
 			return deferred;
 		}
