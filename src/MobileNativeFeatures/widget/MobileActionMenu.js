@@ -142,7 +142,6 @@ define([
 				}
 					
 				if (buttonIndex === indexOfCancel) {
-					this._cancelPendingTransition();
 				} else if (buttonIndex === indexOfDelete) {
 					this._executeMicroflow(this.deleteButtonMF, this.deleteButtonProgress, this.deleteButtonModal, this.deleteButtonMessage, function () {});
 				} else {
@@ -150,7 +149,6 @@ define([
 				}
 				
 			} else {
-				this._cancelPendingTransition();
 			}
 		},
 		
