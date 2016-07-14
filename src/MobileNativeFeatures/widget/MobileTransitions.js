@@ -93,7 +93,7 @@ define([
 						this._listenerHandle = query("."+this.clsName).on("click", lang.hitch(this, function () {
 							window.plugins.nativepagetransitions.nextTransition = this.direction;
 							window.plugins.nativepagetransitions.nextOptions = {
-								"duration"       :  this.duraction, // in milliseconds (ms), default 400
+								"duration"       :  this.duration, // in milliseconds (ms), default 400
 								"iosdelay"       :   -1, // ms to wait for the iOS webview to update before animation kicks in, default 60
 								"androiddelay"   :   -1
 							};
