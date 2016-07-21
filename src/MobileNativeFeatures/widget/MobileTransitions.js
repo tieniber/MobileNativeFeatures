@@ -153,10 +153,9 @@ define([
 				}
 				window.plugins.nativepagetransitions.nextTransition = null;
 				window.plugins.nativepagetransitions.nextOptions = null;
+				//set a limit on how long we're going to keep the transition waiting, in case something breaks
+				setTimeout(this._cancelTransition, 5000);
 			}
-
-			//set a limit on how long we're going to keep the transition waiting, in case something breaks
-			setTimeout(this._cancelTransition, 5000);
 
 			return deferred;
 		},
