@@ -9,7 +9,7 @@
     @version   : 1.0
     @author    : Bailey Everitt
     @date      : Tue, 14 Jul 2015 16:41:23 GMT
-    @copyright : 
+    @copyright :
     @license   : MIT
 
     Documentation
@@ -59,9 +59,9 @@ define([
 				this._listenerHandle = null;
 			}
 		},
-		
+
 		_setupMutationObserver: function () {
-		
+
 			var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
 			this._observer = new MutationObserver(lang.hitch(this, this._setupListeners));
@@ -76,19 +76,19 @@ define([
 				attributeOldValue: false,
 				characterDataOldValue: false
 			});
-			
+
 			this._setupListeners();
-		},	
-		
+		},
+
 		_setupListeners: function () {
             if (this._listenerHandle) {
 				this._listenerHandle.remove();
 				this._listenerHandle = null;
 			}
-			
+
             if (typeof window.plugins !== "undefined") {
 
-                if (typeof window.plugins.nativepagetransitions !== "undefined") {					
+                if (typeof window.plugins.nativepagetransitions !== "undefined") {
 					if (this.direction === "fade") {
 						this._listenerHandle = query("."+this.clsName).on("click", lang.hitch(this, function () {
 							window.plugins.nativepagetransitions.nextTransition = this.direction;
@@ -97,9 +97,9 @@ define([
 								"iosdelay"       :   -1, // ms to wait for the iOS webview to update before animation kicks in, default 60
 								"androiddelay"   :   -1
 							};
-						}));						
+						}));
 					} else {
-				
+
 						this._listenerHandle = query("."+this.clsName).on("click", lang.hitch(this, function () {
 							window.plugins.nativepagetransitions.nextTransition = this.direction;
 							window.plugins.nativepagetransitions.nextOptions = {
@@ -119,14 +119,18 @@ define([
                 console.log("page transition plugin not found");
             }
         },
-		
+
 		_prepTransition: function(deferred) {
 			//instead of setting up a pending when a button is clicked, we're just going to leave options on the plugin object, then prep it before onNavigation.
 			//Then we'll call the actual animation after onNavigation
 			//This should solve a bunch of problems with taking a screenshot too early, and covering up things like errors
-			
+
 			if (window.plugins && typeof window.plugins.nativepagetransitions !== "undefined" && window.plugins.nativepagetransitions.nextTransition) {
-				if (window.plugins.nativepagetransitions.nextTransition === "fade") {	
+				//clean up any pending transitions, in case they didn't get fired yet.
+				//Otherwise you can mess up the plugin by creating 2 screenshots and one of them never gets removed
+				this._cancelTransition();
+
+				if (window.plugins.nativepagetransitions.nextTransition === "fade") {
 					window.plugins.nativepagetransitions.fade(
 						window.plugins.nativepagetransitions.nextOptions,
 						function (msg) {
@@ -145,25 +149,35 @@ define([
 						function (msg) {
 							alert("error: " + msg);
 						} // called in case you pass in weird values
-					);					
-				}				
+					);
+				}
 				window.plugins.nativepagetransitions.nextTransition = null;
 				window.plugins.nativepagetransitions.nextOptions = null;
-			}			
+			}
+
+			//set a limit on how long we're going to keep the transition waiting, in case something breaks
+			setTimeout(this._cancelTransition, 5000);
+
 			return deferred;
 		},
-		
-		_fireTransition: function(deferred) {			
-			//Run whatever pending transition is waiting			
+
+		_fireTransition: function(deferred) {
+			//Run whatever pending transition is waiting
 			if (window.plugins && typeof window.plugins.nativepagetransitions !== "undefined") {
 				window.plugins.nativepagetransitions.executePendingTransition(
 				  function (msg) {console.log("success: " + msg);}, // called when the animation has finished
 				  function (msg) {alert("error: " + msg);} // called in case you pass in weird values
 				);
 			}
-			
+
 			return deferred;
-		}
+		},
+
+    	_cancelTransition: function() {
+			window.plugins.nativepagetransitions.cancelPendingTransition(
+			  function (msg) {} // called when the screenshot was hidden (almost instantly)
+			);
+    	}
     });
 });
 
