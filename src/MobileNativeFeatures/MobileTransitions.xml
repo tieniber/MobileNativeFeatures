@@ -6,16 +6,25 @@
     <icon>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAd0lEQVR42q1TQQ7AIAjjEfz/Oe4Ah/mizSWYEFM3cDbpsRVKJZqDG9XIlMQjqI2X8cyaqBN3SsagmMCLCy2gG4R2VvAKMjhsIkaBScBAxmBRYFHKFgO2caIrKOoGT06FDMoY4pYzfhVJs0WSv1X2wS59Jh/sa2A3/2BcyNllo4UAAAAASUVORK5CYII=</icon>
 
     <properties>
-        <property key="direction" type="enumeration" required="true" defaultValue="up">
+		<property key="transitionType" type="enumeration" required="true" defaultValue="slide">
+			<caption>Type</caption>
+			<category>Settings</category>
+			<description>The type of transition.</description>
+			<enumerationValues>
+				<enumerationValue key="slide">Slide</enumerationValue>
+				<enumerationValue key="flip">Flip</enumerationValue>
+				<enumerationValue key="fade">Fade</enumerationValue>
+			</enumerationValues>
+		</property>
+        <property key="direction" type="enumeration" required="true" defaultValue="left">
             <caption>Direction</caption>
             <category>Settings</category>
             <description>The direction to transition the next page</description>
             <enumerationValues>
-                <enumerationValue key="up">Slide Up</enumerationValue>
-                <enumerationValue key="down">Slide Down</enumerationValue>
-                <enumerationValue key="left">Slide Left</enumerationValue>
-                <enumerationValue key="right">Slide Right</enumerationValue>
-				<enumerationValue key="fade">Fade</enumerationValue>
+                <enumerationValue key="up">Up</enumerationValue>
+                <enumerationValue key="down">Down</enumerationValue>
+                <enumerationValue key="left">Left</enumerationValue>
+                <enumerationValue key="right">Right</enumerationValue>
             </enumerationValues>
         </property>
         <property key="clsName" type="string" required="true">
@@ -37,6 +46,6 @@
             <caption>Fixed Pixels Bottom</caption>
             <category>Settings</category>
             <description>Any footer pixels that you don't want to slide.</description>
-        </property>        
+        </property>
     </properties>
 </widget>
