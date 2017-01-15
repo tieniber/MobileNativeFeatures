@@ -1,15 +1,16 @@
-# App Store Widget Boilerplate
+# Mobile Native Features
 
-This boilerplate gives you all you need to start a new custom widget for Mendix
-5.6.0 and up.
+This packages includes the following widgets, to be used in a Mendix mobile hybrid application:
+- MobileTransitions: transition between pages using transitions
+- MobileActionMenu: tap a button to show a list of action options
+- MobileDialog: info, warning, and error messages will be shown using native dialog boxes
+- MobileHideSplash: hides the mobile splash screen when a page loads
+- MobileSpinner: instead of the Mendix default loading dots, use the native loading spinners for your device
+- MobileStatusBar: set the text color and background of the status bar (i.e, the bar with time and other settings)
 
-The boilerplate contains:
-- Directory structure
-- Readme.md
-- License
-- JavaScript source
-- XSD for package.xml, to configure properties of the widget, visible inside the
- Mendix business modeler
+NOTE: This package modifies Mendix internal JavaScript. It could break when new versions of the Mendix platform are released.
+
+TESTED ON: Mendix 6.7.1
 
 ## Contributing
 
@@ -17,74 +18,84 @@ For more information on contributing to this repository visit [Contributing to a
 
 ## Typical usage scenario
 
-Use this template to start building a widget for Mendix 5.
-Alter this README.md file and describe what your widget does.
- 
-## Description
+These widgets, with the exception of MobileActionMenu, are designed to be dropped on your master mobile page template. Many of them override functions in the Mendix UI code to hook into Cordova plugins.
 
-The javascript inside the widget has examples of:
-- Using CSS within a widget
-- Using templating
-- Loading external library's
-- DOM manipulation
-- Event attaching
-- Loading data
-- Executing microflow and sending data
-- Working with the context object, which is an object in the current context
-(e.g. the one displayed in a DataView).
+Note: any version numbers below are simply the plugin version these widgets were tested on. Newer versions may work as well.
 
-### Dojo AMD module list
+## Dependencies
 
-The JavaScript contains an extensive list of modules that may be used to build a
-widget. It is best to reduce this list to what is actually used. Use JSHint to
-help identify errors and problems. 
+Be sure that these Cordova plugins are included in your PhoneGap config.xml file. Without them, these widgets will not work.
 
-** Be sure to keep the module name array and the parameter list of the anonymous
-function below the module list in sync! **
+### MobileTransitions
 
-The following modules are necessary for all widgets:
-- dojo/_base/declare
-- mxui/widget/_WidgetBase
-- dijit/_Widget
+<gap:plugin name="com.telerik.plugins.nativepagetransitions" source="npm" />
 
-If your widget does not use an HTML template:
-- Remove dijit/_TemplatedMixin from the module list
-- Remove _Templated from the parameter list of the anonymous function below the module list
-- Remove _Templated from the parameter list of the declare call
-- Remove the templates folder
+### MobileActionMenu
 
-If your widget does not need jQuery:
-- Remove WidgetName/widget/lib/jquery from the module list
-- Remove _jQuery from the parameter list of the anonymous function below the module list
-- Remove _jQuery from the parameter list of the declare call
-- Remove jquery.js from src\WidgetName\widget\lib\ Or remove the lib folder if you don't include external libraries in the widget.
+<gap:plugin name="cordova-plugin-actionsheet" source="npm" />
 
-### AMD caveats
-Working with jQuery can be difficult due to the fact that jquery does not adhere to the AMD standard correctly. Check out [Pull Request #13](https://github.com/mendix/AppStoreWidgetBoilerplate/pull/13) or the [Dojo AMD documentation](http://dojotoolkit.org/documentation/tutorials/1.10/modules/index.html) for details.
+### MobileDialog
 
-## Migrating a widget to Dojo AMD
+<gap:plugin name="cordova-plugin-dialogs" source="npm" version="1.2.1" />
 
-A widget that uses Dojo AMD may not refer to functions like *dojo.forEach* etc. 
-All necessary modules must be declared on the module list at the top of the source.
+### MobileHideSplash
 
-Replacing all 'old' Dojo calls in an existing source can be a bit of a pain.
+<gap:plugin name="cordova-plugin-splashscreen" source="npm" version="3.2.2" />
 
-Here is a list of commonly used functions and their new counterpart:
+### MobileSpinner
 
-Old | New
----------- |---------- 
-mxui.dom              | domMx
-dojo.byId             | dom.byId
-dojo.query            | document.querySelector
-dojo.forEach          | dojoArray.forEach
-dojo.hitch            | lang.hitch
-dojo.addClass         | domClass.add
-dojo.removeClass      | domClass.remove
-dojo.hasClass         | domClass.contains
-dojo.replaceClass     | domClass.replace
-dojo.empty            | domConstruct.empty
-dojo.place            | domConstruct.place 
-dojo.on               | on
-dojo.window           | win
-  
-The referenced modules are in the module list of the boilerplate JavaScript.
+<gap:plugin name="cordova-plugin-spinnerdialog" source="npm" />
+
+### MobileStatusBar
+
+<gap:plugin name="cordova-plugin-statusbar" source="npm" version="2.1.3" />
+
+## Configuration
+
+These widgets, with the exception of MobileActionMenu, are designed to be dropped on your master mobile page template. Many of them override functions in the Mendix UI code to hook into Cordova plugins.
+
+### MobileTransitions
+
+When navigating the web, it’s normal for your browser screen to flash white before loading the next page. With mobile apps, however, users expect a smooth transition between pages:
+
+![Transition Example](http://developer.telerik.com/wp-content/uploads/2014/10/native-transitions.gif)
+
+The MobileTransitions widget works by taking a screenshot of your current page, loading the new page, and then executing a transition to the new page.
+
+To set up the widget, do the following:
+ 1. Drop the NativeTransitions Mendix widget onto your page layout
+ 2. Configure the animation you want to use and the CSS class to target
+
+![Configuration Options](https://github.com/tieniber/MobileNativeFeatures/blob/master/assets/NativeTransitions.png)
+
+ 3. Add this class to any clickable region of your Mendix app: buttons, links, list view rows, menu items, etc.
+ 4. Native transitions work on both Apple and Android devices, though you should test them as there are some quirks.
+
+### MobileStatusBar
+
+Another native component in mobile apps is the status bar. That’s the one with signal strength and battery levels. You may not notice it day-to-day, but almost every app changes the background and text color of this bar based on the app’s color scheme. PhoneGap offers the ability to set the default status bar color using the config.xml file. With the MobileStatusBar widget, you can control the background and text color of the status bar on each page in your Mendix app. This widget is simple, just drop it on any page and select your background and text color:
+
+![Status Bar Sample](https://github.com/tieniber/MobileNativeFeatures/blob/master/assets/StatusBar.png)
+
+### MobileSpinner
+
+Instead of the standard Mendix loading dots, drop the MobileSpinners widget onto your master page template. The widget will replace the dots with native loading screens for both iOS and Android:
+
+All of the same options from your application model apply to these loading screens: you can use modal or non-modal spinners, and optionally include a message below the spinner icon.
+
+![Spinner Sample iOS](https://github.com/tieniber/MobileNativeFeatures/blob/master/assets/SpinneriOS.png)
+![Spinner Sample Android](https://github.com/tieniber/MobileNativeFeatures/blob/master/assets/SpinnerAndroid.png)
+
+### MobileDialog
+
+Mendix microflows offer a “Show Message” activity, which you can use to provide information to your user, whether that’s information, a warning, or an error. Simply drop the MobileDialog widget onto your master page template, and the widget does the rest: all Mendix loading screens will automatically become native spinners instead!
+
+### Action Menus
+
+You’ve seen these menus in almost every app: they provide a quick list of actions that you can take, and appropriately are called action menus:
+
+![Action Menu Sample](https://github.com/tieniber/MobileNativeFeatures/blob/master/assets/ActionMenuiOS.png)
+
+To include one in your Mendix application, drop the MobileAction menu, drop it on a page where you want the button that will display the action menu. Next, customize the button text and appearance, then decide what actions you want to display: options include ‘Cancel’ and ‘Delete’ which get special formatting and treatment, and then any other action you want to include. Each of these actions can fire a microflow, giving you maximum flexibility into the outcome of an action.
+
+Action menus work on both Apple and Android devices, and you can expect to the widget to show the native menu for that device.
