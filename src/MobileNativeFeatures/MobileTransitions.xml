@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="MobileNativeFeatures.widget.MobileTransitions" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+<widget id="MobileNativeFeatures.widget.MobileTransitions" needsEntityContext="false" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/">
     <name>Mobile Transitions</name>
     <description>Create page transitions for your Hybrid Mobile Apps</description>
 

@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="MobileNativeFeatures.widget.MobileActionMenu" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
+<widget id="MobileNativeFeatures.widget.MobileActionMenu" needsEntityContext="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/">
     <name>MobileActionMenu</name>
     <description>A widget provides a button that triggers a native action menu, tied to a list of microflows.</description>
     <icon />
 
-    <properties>       	
+    <properties>
 		<property key="buttonText" type="string" required="false" defaultValue="">
             <caption>Button Text</caption>
             <category>Appearance</category>
             <description>The text of the button.</description>
-        </property>		
+        </property>
 		<property key="buttonClass" type="string" required="false" defaultValue="">
             <caption>Button CSS Class</caption>
             <category>Appearance</category>
             <description>The CSS class(es) to be added to the button. Seperate multiple classes with spaces.</description>
-        </property>			
+        </property>
 		<property key="title" type="string" required="true" defaultValue="Select an option">
             <caption>Prompt Text</caption>
             <category>Appearance</category>
             <description>The text at the top of the action menu</description>
         </property>
-		
+
 		<property key="cancelButton" type="boolean" required="true" defaultValue="false">
             <caption>Show Cancel Button</caption>
             <category>Cancel Button</category>
@@ -31,7 +31,7 @@
             <category>Cancel Button</category>
             <description>The label of the Cancel button</description>
         </property>
-		
+
 		<property key="deleteButton" type="boolean" required="true" defaultValue="false">
             <caption>Show Delete Button</caption>
             <category>Delete Button</category>
@@ -41,7 +41,7 @@
             <caption>Delete Button Text</caption>
             <category>Delete Button</category>
             <description>The label of the Delete button</description>
-        </property>		
+        </property>
 		<property key="deleteButtonMF" type="microflow" required="false">
 			<caption>Delete Button Microflow</caption>
 			<category>Delete Button</category>
@@ -62,8 +62,8 @@
 			<caption>Message</caption>
 			<category>Delete Button</category>
 			<description>The progress message</description>
-		</property>			
-		
+		</property>
+
 		<!-- This is the list -->
         <property key="buttons" type="object" isList="true" required="false">
             <caption>Buttons</caption>
@@ -95,9 +95,8 @@
 					<caption>Message</caption>
 					<category>Behavior</category>
 					<description>The progress message</description>
-				</property>			
+				</property>
             </properties>
-        </property>				
+        </property>
     </properties>
 </widget>
-

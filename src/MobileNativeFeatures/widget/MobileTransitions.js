@@ -43,7 +43,7 @@ define([
             logger.debug(this.id + ".postCreate");
 
             ready(lang.hitch(this, this._setupMutationObserver));
-			aspect.after(this.mxform, "onLoading", lang.hitch(this, this._prepTransition));
+			aspect.after(this.mxform, "navigateTo", lang.hitch(this, this._prepTransition));
 			aspect.after(this.mxform, "onNavigation", lang.hitch(this, this._fireTransition));
         },
 
@@ -134,6 +134,7 @@ define([
         },
 
 		_prepTransition: function(deferred) {
+			console.log("prepping transition");
 			//instead of setting up a pending when a button is clicked, we're just going to leave options on the plugin object, then prep it before onNavigation.
 			//Then we'll call the actual animation after onNavigation
 			//This should solve a bunch of problems with taking a screenshot too early, and covering up things like errors
@@ -177,13 +178,17 @@ define([
 				window.plugins.nativepagetransitions.nextTransition = null;
 				window.plugins.nativepagetransitions.nextOptions = null;
 				//set a limit on how long we're going to keep the transition waiting, in case something breaks
-				setTimeout(this._cancelTransition, 10000);
+				this.pendingTimeout = setTimeout(this._cancelTransition, 10000);
 			}
 
 			return deferred;
 		},
 
 		_fireTransition: function(deferred) {
+			console.log("firing transition");
+			//Cancel a pending cancel transition timeout
+			clearTimeout(this.pendingTimeout);
+
 			//Run whatever pending transition is waiting
 			if (window.plugins && typeof window.plugins.nativepagetransitions !== "undefined") {
 				window.plugins.nativepagetransitions.executePendingTransition(
@@ -196,6 +201,7 @@ define([
 		},
 
     	_cancelTransition: function() {
+			console.log("cancelling transition");
 			window.plugins.nativepagetransitions.cancelPendingTransition(
 			  function (msg) {} // called when the screenshot was hidden (almost instantly)
 			);

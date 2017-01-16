@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="MobileNativeFeatures.widget.MobileStatusBar" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+<widget id="MobileNativeFeatures.widget.MobileStatusBar" needsEntityContext="false" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/">
     <name>MobileStatusBar</name>
     <description>Lets you control the style and presence of the status bar in a mobile app.</description>
 
@@ -32,4 +32,3 @@
 		</property>
     </properties>
 </widget>
-

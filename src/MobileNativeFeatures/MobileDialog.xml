@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="MobileNativeFeatures.widget.MobileDialog" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+<widget id="MobileNativeFeatures.widget.MobileDialog" needsEntityContext="false" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/">
     <name>MobileDialog</name>
     <description>A widget that overrides the default Mendix alerts and confirmation windows with mobile native ones, when available. Requires the cordova-plugin-dialogs plugin to be included in your hybrid mobile app. As of 6.5.1, this was in the default hybrid config file.</description>
 
@@ -13,4 +13,3 @@
         </property>
     </properties>
 </widget>
-
