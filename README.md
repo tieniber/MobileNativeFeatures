@@ -28,27 +28,27 @@ Be sure that these Cordova plugins are included in your PhoneGap config.xml file
 
 ### MobileTransitions
 
-<gap:plugin name="com.telerik.plugins.nativepagetransitions" source="npm" />
+    <gap:plugin name="com.telerik.plugins.nativepagetransitions" source="npm" />
 
 ### MobileActionMenu
 
-<gap:plugin name="cordova-plugin-actionsheet" source="npm" />
+    <gap:plugin name="cordova-plugin-actionsheet" source="npm" />
 
 ### MobileDialog
 
-<gap:plugin name="cordova-plugin-dialogs" source="npm" version="1.2.1" />
+    <gap:plugin name="cordova-plugin-dialogs" source="npm" version="1.2.1" />
 
 ### MobileHideSplash
 
-<gap:plugin name="cordova-plugin-splashscreen" source="npm" version="3.2.2" />
+    <gap:plugin name="cordova-plugin-splashscreen" source="npm" version="3.2.2" />
 
 ### MobileSpinner
 
-<gap:plugin name="cordova-plugin-spinnerdialog" source="npm" />
+    <gap:plugin name="cordova-plugin-spinnerdialog" source="npm" />
 
 ### MobileStatusBar
 
-<gap:plugin name="cordova-plugin-statusbar" source="npm" version="2.1.3" />
+    <gap:plugin name="cordova-plugin-statusbar" source="npm" version="2.1.3" />
 
 ## Configuration
 
